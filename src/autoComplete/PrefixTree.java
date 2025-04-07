@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.w3c.dom.Node;
+
 /**
  * A prefix tree used for autocompletion. The root of the tree just stores links to child nodes (up to 26, one per letter).
  * Each child node represents a letter. A path from a root's child node down to a node where isWord is true represents the sequence
@@ -26,44 +28,39 @@ public class PrefixTree {
      */
     public void add(String word){
         TreeNode parent = root;
-        for(int i = 0; i<word.length()-1; i++){
-            if(parent.children.containsKey(word.charAt(i))){ // not accounting for 
-                if(i == word.length()-1){
-                    parent.children.get(word.charAt(i)).isWord = true;
+        for(int i = 0; i<word.length(); i++){
+            if(parent.children.containsKey(word.charAt(i))){ //if the parent has the character 
+                //System.out.println(word.charAt(i));
+                if(i == word.length()-1){ //if it's the last letter in the word
+                    parent.children.get(word.charAt(i)).isWord = true; //note that the character is the end of a word
+                    //System.out.println("end");
+                    return;
                 }
-                parent = root.children.get(word.charAt(i)); //sets the current to be the node for character i
-                if(i == word.length()-1){
-                    
-                }
-                continue;
+                parent = parent.children.get(word.charAt(i)); //sets the current to be the node for character i
             }
             else{
                 TreeNode charNode = new TreeNode();
                 charNode.letter = word.charAt(i);
+                //System.out.println(word.charAt(i));
                 parent.children.put(word.charAt(i), charNode);
                 if(i == word.length()-1){
                     charNode.isWord = true;
+                    //System.out.println("end");
                 }
                 parent = charNode;
             }
         }
-        //make a recursive function!!
-        //base case: the letter is the final letter -- add it and unwind the recursion
-        // for each character, check if it's in that node's map
-            //if yes, add(char)
-            //if not, make a new node and add it as the parent's child, then add it to the parent's map of children, then add(next char)
-            //TODO NOT RECURSIVE
-        //TODO: complete me
-        /*
+        parent.isWord = true;
+        size++;
+        
+        /* TODO
          * create nodes for each character in the tree (if they don't already exist)
          * link together the nodes at the proper point in the tree and store them in the children maps
          * when the last character of the word is reached, mark it as the end of the word
          * if the word is not in the tree, increment size
          * if the word already exists, don't change anything
          * use the charAt method
-         */
-
-        
+         */        
     }
 
     /**
@@ -72,8 +69,26 @@ public class PrefixTree {
      * @return true if contained in the tree.
      */
     public boolean contains(String word){
-        //TODO: complete me
-        /*
+        TreeNode parent = root;
+        for(int i = 0; i<word.length(); i++){
+            if(parent.children.containsKey(word.charAt(i))){
+                System.out.println(word.charAt(i));
+                if(i == word.length()-1){
+                    if(parent.children.get(word.charAt(i)).isWord){
+                        System.out.println("end");
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+                parent = root.children.get(word.charAt(i));
+            }
+            else {
+                return false;
+            }
+        }
+        /* TODO
          * return true if the word is contained in the tree
          * start at root and iterate down through the characters in the tree
          * if each character is found in the correct order, it passes
@@ -88,11 +103,24 @@ public class PrefixTree {
      * @return list of words with prefix
      */
     public ArrayList<String> getWordsForPrefix(String prefix){
-        //TODO: complete me
-        /*
-         * 
-         */
+        StringBuilder sb = new StringBuilder(); //this stringbuilder is the wrong direction, it'll build nonsense strings
+        recursivePrefixHelper(root, sb);
+
+        //use the recursive method to mark the different end nodes?? idk how to keep traversing
         return null;
+    }
+
+    public void recursivePrefixHelper(TreeNode node, StringBuilder sb){
+        if (node.isWord){
+            sb.append(node.toString() + " ");
+            return;
+        }
+        else{
+            sb.append(node.toString() + " ");
+            for(TreeNode child : node.children.values()){ //for each child node
+                recursivePrefixHelper(child, sb);
+            }
+        }
     }
 
     /**
