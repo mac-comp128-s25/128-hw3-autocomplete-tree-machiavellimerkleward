@@ -66,6 +66,8 @@ public class TestPrefixTree {
         tree.add("possible");
         tree.add("possum");
         tree.add("pot");
+        ArrayList<String> falseResult = tree.getWordsForPrefix("hell");
+        assertEquals(0, falseResult.size());
         ArrayList<String> result = tree.getWordsForPrefix("pot");
         assertEquals(3, result.size());
         assertTrue(result.contains("pot"));
