@@ -99,28 +99,41 @@ public class PrefixTree {
     public ArrayList<String> getWordsForPrefix(String prefix){
         ArrayList<String> words = new ArrayList<>();
         StringBuilder sb = new StringBuilder(); //this stringbuilder is the wrong direction, it'll build nonsense strings
-        recursivePrefixHelper(root, sb);
+        
+        TreeNode parent = root;
+        //first I need to get to the actual end of the prefix
+        for(int i = 0; i<prefix.length(); i++){
+            if(parent.children.containsKey(prefix.charAt(i))){
+                parent = parent.children.get(prefix.charAt(i));
+            }
+        }
+        recursivePrefixHelper(parent, sb);
 
-        //use the recursive method to mark the different end nodes?? idk how to keep traversing
-        //make copies of the stringbuilders
+    
+        /*
+         * use the recursive method to mark the different end nodes?? idk how to keep traversing
+         * 
         //don't use a stringbuilder
         //pass a list of strings and add to the list
-        /*
          * pre-order traverse the 
+         * 
          * pass the parent into the 
          */
 
 
-        return null;
+        return words;
     }
 
     public void recursivePrefixHelper(TreeNode node, StringBuilder sb){
-        if (node.isWord){
-            sb.append(node.toString() + " ");
-            return;
+        //ArrayList<String> stringList
+        if (node.children.isEmpty()){ //if it's a leaf (must be the end of a word)
+            sb.append(node.letter);
+            //add this character to the list of strings
+            return; //unwind the recursion
         }
         else{
-            sb.append(node.toString() + " ");
+            sb.append(node.letter);
+            //add this character to the string--it's a PREORDER traversal, meaing the string will be built progressively
             for(TreeNode child : node.children.values()){ //for each child node
                 recursivePrefixHelper(child, sb);
             }
