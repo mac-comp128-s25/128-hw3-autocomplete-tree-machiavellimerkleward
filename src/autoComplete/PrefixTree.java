@@ -30,10 +30,8 @@ public class PrefixTree {
         TreeNode parent = root;
         for(int i = 0; i<word.length(); i++){
             if(parent.children.containsKey(word.charAt(i))){ //if the parent has the character 
-                //System.out.println(word.charAt(i));
                 if(i == word.length()-1){ //if it's the last letter in the word
                     parent.children.get(word.charAt(i)).isWord = true; //note that the character is the end of a word
-                    //System.out.println("end");
                     return;
                 }
                 parent = parent.children.get(word.charAt(i)); //sets the current to be the node for character i
@@ -41,11 +39,9 @@ public class PrefixTree {
             else{
                 TreeNode charNode = new TreeNode();
                 charNode.letter = word.charAt(i);
-                //System.out.println(word.charAt(i));
                 parent.children.put(word.charAt(i), charNode);
                 if(i == word.length()-1){
                     charNode.isWord = true;
-                    //System.out.println("end");
                 }
                 parent = charNode;
             }
@@ -72,17 +68,15 @@ public class PrefixTree {
         TreeNode parent = root;
         for(int i = 0; i<word.length(); i++){
             if(parent.children.containsKey(word.charAt(i))){
-                System.out.println(word.charAt(i));
                 if(i == word.length()-1){
                     if(parent.children.get(word.charAt(i)).isWord){
-                        System.out.println("end");
                         return true;
                     }
                     else{
                         return false;
                     }
                 }
-                parent = root.children.get(word.charAt(i));
+                parent = parent.children.get(word.charAt(i));
             }
             else {
                 return false;
@@ -103,10 +97,20 @@ public class PrefixTree {
      * @return list of words with prefix
      */
     public ArrayList<String> getWordsForPrefix(String prefix){
+        ArrayList<String> words = new ArrayList<>();
         StringBuilder sb = new StringBuilder(); //this stringbuilder is the wrong direction, it'll build nonsense strings
         recursivePrefixHelper(root, sb);
 
         //use the recursive method to mark the different end nodes?? idk how to keep traversing
+        //make copies of the stringbuilders
+        //don't use a stringbuilder
+        //pass a list of strings and add to the list
+        /*
+         * pre-order traverse the 
+         * pass the parent into the 
+         */
+
+
         return null;
     }
 
