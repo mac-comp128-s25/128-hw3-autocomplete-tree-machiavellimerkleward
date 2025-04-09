@@ -93,11 +93,17 @@ public class PrefixTree {
         }
         TreeNode parent = root.children.get(prefix.charAt(0)); 
         
-        for(int i = 0; i<prefix.length(); i++){
+        
+        for(int i = 1; i<prefix.length(); i++){
             if(parent.children.containsKey(prefix.charAt(i))){
                 parent = parent.children.get(prefix.charAt(i));
+                }
+            else{
+                System.out.println((prefix.charAt(i)));
+                return new ArrayList<>();
             }
         }
+
         if(parent.isWord){
             words.add(prefix);
         }
