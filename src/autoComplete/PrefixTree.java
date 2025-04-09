@@ -10,7 +10,7 @@ import org.w3c.dom.Node;
  * A prefix tree used for autocompletion. The root of the tree just stores links to child nodes (up to 26, one per letter).
  * Each child node represents a letter. A path from a root's child node down to a node where isWord is true represents the sequence
  * of characters in a word.
- * Written by Macalester MSCS, with the add, contains, getWordsForPrefix, and recursivePrefixHelper methods written by Machiavelli Merkle-Ward.
+ * @author Written by Macalester MSCS, with the add, contains, getWordsForPrefix, and recursivePrefixHelper methods written by Machiavelli Merkle-Ward.
  */
 public class PrefixTree {
     private TreeNode root; 
@@ -99,7 +99,6 @@ public class PrefixTree {
                 parent = parent.children.get(prefix.charAt(i));
                 }
             else{
-                System.out.println((prefix.charAt(i)));
                 return new ArrayList<>();
             }
         }
